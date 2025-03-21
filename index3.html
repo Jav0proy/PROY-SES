@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Motivos</title>
+    <style>
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .form-section label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <form id="formulario" onsubmit="return validarFormulario()">
+            <!-- Opción de motivo principal -->
+            <div class="form-section">
+                <label for="motivo">¿Cuál fue el motivo principal por el que decidiste dejar este empleo?</label><br>
+                <select id="motivo" name="motivo" onchange="mostrarOpciones()">
+                    <option value="">Selecciona una opción</option>
+                    <option value="estudios">Estudios</option>
+                    <option value="salud">Problemas de salud</option>
+                    <option value="personales">Problemas personales</option>
+                    <option value="actividades">No me gustaron las actividades</option>
+                    <option value="empleo">Otro empleo</option>
+                    <option value="economico">Ingreso económico</option>
+                    <option value="horarios">Horarios</option>
+                    <option value="desarrollo">Falta de desarrollo</option>
+                    <option value="negocio">Negocio propio</option>
+                    <option value="carga">Cargas de trabajo</option>
+                    <option value="compañeros">Problemas con compañeros</option>
+                    <option value="trato">Mal trato del jefe inmediato</option>
+                    <option value="liderazgo">Liderazgo inadecuado</option>
+                    <option value="otros">Otros (especificar)</option>
+                </select><br><br>
+            </div>
+
+            <!-- Sección de Estudios -->
+            <div id="seccion-estudios" class="form-section" style="display:none;">
+                <label for="tipo-estudio">¿Qué tipo de estudios vas a realizar?</label><br>
+                <select id="tipo-estudio" name="tipo-estudio">
+                    <option value="">Selecciona un tipo de estudio</option>
+                    <option value="Bachillerato">Bachillerato</option>
+                    <option value="Universidad">Universidad</option>
+                    <option value="Posgrado">Posgrado</option>
+                </select><br><br>
+
+                <label for="modalidad">Modalidad:</label><br>
+                <select id="modalidad" name="modalidad">
+                    <option value="">Selecciona modalidad</option>
+                    <option value="Presencial">Presencial</option>
+                    <option value="En línea">En línea</option>
+                </select><br><br>
+
+                <label>¿Qué requerías de la empresa que no obtuviste?</label><br>
+                <select name="apoyo-estudio">
+                    <option value="">Selecciona una opción</option>
+                    <option value="Apoyo para colegiatura">Apoyo para pago de colegiatura</option>
+                    <option value="Reducción jornada">Reducción de jornada para estudiar</option>
+                    <option value="Día fijo descanso">Día fijo de descanso</option>
+                </select><br><br>
+            </div>
+
+             <!-- Salud -->
+        <div id="salud" class="form-section" style="display:none;">
+            <label for="salud-detalle">¿Qué tipo de problemas de salud tienes?</label><br>
+            <input type="text" id="salud-detalle" name="salud-detalle"><br><br>
+        </div>
+
+            <!-- Sección de Problemas Personales -->
+            <div id="seccion-personales" class="form-section" style="display:none;">
+                <label for="causa-personal">¿Qué tipo de problema personal estás enfrentando?</label><br>
+                <select id="causa-personal" name="causa-personal">
+                    <option value="">Selecciona un tipo de problema</option>
+                    <option value="Familiares">De pareja</option>
+                    <option value="Personales">Con familiares directos</option>
+                    <option value="Emocionales">Legales</option>
+                    <!--<option value="Otro">Otro (especificar)</option>-->
+                </select><br><br> 
+
+                <!--<div id="campo-personal-otro" style="display:none;">
+                    <label for="motivo-personal-otro">Especifica otro tipo de problema:</label><br>
+                    <input type="text" id="motivo-personal-otro" name="motivo-personal-otro"><br><br>
+                </div>
+
+                <label for="opciones-personales">Opciones para resolver problemas personales:</label><br>
+                <select name="opciones-personales">
+                    <option value="Terapia psicológica">Terapia psicológica</option>
+                    <option value="Tiempo libre">Tiempo libre para descansar</option>
+                    <option value="Apoyo en familia">Apoyo en familia</option>
+                </select><br><br>-->
+            </div>
+
+            <!-- Opción Otros: Si se selecciona esta opción, aparece un campo de texto -->
+            <div id="campo-otros" class="form-section" style="display:none;">
+                <label for="motivo-otros">Especifica otro motivo:</label><br>
+                <input type="text" id="motivo-otros" name="motivo-otros"><br><br>
+            </div>
+
+            <!-- Grado de satisfacción general -->
+            <div class="form-section" id="grado-satisfaccion-container" style="display:none;">
+                <label for="grado-satisfaccion">Grado de satisfacción general:</label><br>
+                <select id="grado-satisfaccion" name="grado-satisfaccion">
+                    <option value="">Selecciona tu grado de satisfacción</option>
+                    <option value="Bueno">Bueno</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Malo">Malo</option>
+                </select><br><br>
+            </div>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script>
+        function mostrarOpciones() {
+            // Ocultar todas las secciones
+            document.getElementById("seccion-estudios").style.display = 'none';
+            document.getElementById("seccion-personales").style.display = 'none';
+            document.getElementById("salud").style.display = 'none';
+            document.getElementById("campo-otros").style.display = 'none';
+            document.getElementById("grado-satisfaccion-container").style.display = 'none';
+
+            // Obtener el valor del motivo seleccionado
+            var motivoSeleccionado = document.getElementById("motivo").value;
+
+            // Mostrar las opciones correspondientes según la selección
+            if (motivoSeleccionado === "estudios") {
+                document.getElementById("seccion-estudios").style.display = 'block';
+            }
+            else if (motivoSeleccionado === "personales") {
+                document.getElementById("seccion-personales").style.display = 'block';
+            }
+            else if (motivoSeleccionado === "salud") {
+                document.getElementById("salud").style.display = 'block';
+            }
+            else if (motivoSeleccionado === "otros") {
+                document.getElementById("campo-otros").style.display = 'block';
+            }
+
+            // Mostrar el campo de grado de satisfacción solo si se ha seleccionado una opción
+            if (motivoSeleccionado !== "") {
+                document.getElementById("grado-satisfaccion-container").style.display = 'block';
+            } else {
+                document.getElementById("grado-satisfaccion-container").style.display = 'none';
+            }
+        }
+
+        function validarFormulario() {
+            // Validar que al menos una opción haya sido seleccionada
+            var motivoSeleccionado = document.getElementById("motivo").value;
+
+            if (motivoSeleccionado === "") {
+                alert("Por favor selecciona al menos una opción para poder continuar.");
+                return false; // Evitar el envío del formulario si no se selecciona una opción
+            }
+
+            return true; // Permitir el envío del formulario si todo está correcto
+        }
+    </script>
+
+</body>
+</html>

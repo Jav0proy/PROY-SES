@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Condicional</title>
+    <script>
+        // Función para mostrar las preguntas condicionales según la opción seleccionada
+        function mostrarOpciones() {
+            // Primero, ocultamos todas las secciones
+            var secciones = document.querySelectorAll('.opcion');
+            secciones.forEach(function(seccion) {
+                seccion.style.display = 'none';
+            });
+
+            // Obtenemos el valor de la opción seleccionada
+            var motivo = document.querySelector('input[name="motivo"]:checked').value;
+
+            // Mostramos la sección correspondiente a la opción seleccionada
+            if (motivo) {
+                document.getElementById(motivo).style.display = 'block';
+            }
+        }
+    // Función para mostrar las opciones de modalidad (presencial/en línea) después de seleccionar el tipo de estudio
+    function mostrarModalidades() {
+        // Mostrar la sección de modalidades (presencial o en línea)
+        document.getElementById("modalidades-estudios").style.display = 'block';
+        // Ocultar las opciones adicionales cuando se selecciona modalidad
+        document.getElementById("opciones-adicionales").style.display = 'none';  // Ocultamos las opciones hasta que se elija modalidad
+    }
+
+    // Función para mostrar las opciones adicionales después de seleccionar modalidad (presencial/en línea)
+    document.querySelectorAll('input[name="modalidad"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Mostrar las opciones adicionales cuando se selecciona modalidad
+            document.getElementById("opciones-adicionales").style.display = 'block';
+        });
+    });
+
+    // Ocultar las modalidades si el usuario desmarca las opciones de estudios
+    document.querySelectorAll('input[name="estudios"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            if (!document.querySelector('input[name="estudios"]:checked')) {
+                document.getElementById("modalidades-estudios").style.display = 'none';
+                document.getElementById("opciones-adicionales").style.display = 'none';
+            }
+        });
+    });
+
+</script>
+
+
+</script>
+
+    </script>
+</head>
+<body>
+
+    <h1>Encuesta de salida</h1>
+    <form action="procesar.php" method="POST">
+        
+        <!-- Pregunta principal -->
+        <label for="motivo">Motivo de salida:</label><br>
+        <input type="radio" id="motivo1" name="motivo" value="estudios" onclick="mostrarOpciones()"> Estudios<br>
+        <input type="radio" id="motivo2" name="motivo" value="salud" onclick="mostrarOpciones()"> Problemas de salud<br>
+        <input type="radio" id="motivo3" name="motivo" value="personales" onclick="mostrarOpciones()"> Problemas personales<br>
+        <input type="radio" id="motivo4" name="motivo" value="actividades" onclick="mostrarOpciones()"> No me gustaron las actividades<br>
+        <input type="radio" id="motivo5" name="motivo" value="empleo" onclick="mostrarOpciones()"> Otro empleo<br>
+        <input type="radio" id="motivo6" name="motivo" value="economico" onclick="mostrarOpciones()"> Ingreso económico<br>
+        <input type="radio" id="motivo7" name="motivo" value="horarios" onclick="mostrarOpciones()"> Horarios<br>
+        <input type="radio" id="motivo8" name="motivo" value="desarrollo" onclick="mostrarOpciones()"> Falta de desarrollo<br>
+        <input type="radio" id="motivo9" name="motivo" value="negocio" onclick="mostrarOpciones()"> Negocio propio<br>
+        <input type="radio" id="motivo10" name="motivo" value="carga" onclick="mostrarOpciones()"> Cargas de trabajo<br>
+        <input type="radio" id="motivo11" name="motivo" value="compañeros" onclick="mostrarOpciones()"> Problemas con compañeros<br>
+        <input type="radio" id="motivo12" name="motivo" value="trato" onclick="mostrarOpciones()"> Mal trato del jefe inmediato<br>
+        <input type="radio" id="motivo13" name="motivo" value="liderazgo" onclick="mostrarOpciones()"> Liderazgo inadecuado<br><br>
+
+        <!-- Opciones condicionales para cada motivo -->
+            <!-- Estudios -->
+            <div id="estudios" class="opcion" style="display:none;">
+                <label>¿Qué tipo de estudios realizabas? (selecciona solo una opción)</label><br>
+                <input type="radio" name="estudios" value="Bachillerato" onclick="mostrarModalidades()"> Bachillerato<br>
+                <input type="radio" name="estudios" value="Universidad" onclick="mostrarModalidades()"> Universidad<br>
+                <input type="radio" name="estudios" value="Posgrado" onclick="mostrarModalidades()"> Posgrado<br><br>
+            </div>
+            <div id="modalidades-estudios" class="opcion" style="display:none;">
+                <label>¿Cómo realizaste tus estudios?</label><br>
+                <input type="radio" name="modalidad" value="Presencial"> Presencial<br>
+                <input type="radio" name="modalidad" value="En línea"> En línea<br><br>
+            </div>
+
+            <!-- Opciones adicionales después de modalidad -->
+            <div id="opciones-adicionales" class="opcion" style="display:none;">
+                <label>¿Qué opciones consideras importantes para tus estudios?</label><br>
+                <input type="checkbox" name="opciones-estudios" value="Apoyo para pago de colegiatura"> Apoyo para pago de colegiatura<br>
+                <input type="checkbox" name="opciones-estudios" value="Reducción de jornada para estudiar"> Reducción de jornada para estudiar<br>
+                <input type="checkbox" name="opciones-estudios" value="Día fijo de descanso"> Día fijo de descanso<br><br>
+            </div>
+
+
+        <!-- Salud -->
+        <div id="salud" class="opcion" style="display:none;">
+            <label for="salud-detalle">¿Qué tipo de problemas de salud tienes?</label><br>
+            <input type="text" id="salud-detalle" name="salud-detalle"><br><br>
+        </div>
+
+        <!-- Problemas personales -->
+        <div id="personales" class="opcion" style="display:none;">
+            <label for="personales-detalle">¿Qué tipo de problemas personales tienes?</label><br>
+            <input type="radio" id="personales1" name="personales-detalle" value="Con familiares directos">
+            <label for="personales-detalle">Con familiares directos</label><br>
+
+            <input type="radio" id="personales2" name="personales-detalle" value="De pareja">
+            <label for="personales-detalle">De pareja</label><br>
+
+            <input type="radio" id="personales3" name="personales-detalle" value="Legales">
+            <label for="personales-detalle">Legales</label><br><br>
+
+
+        </div>
+
+
+        <!-- No me gustaron las actividades -->
+        <div id="actividades" class="opcion" style="display:none;">
+            <label for="actividades-detalle">¿Qué actividades no te gustaron?</label><br>
+            <input type="text" id="actividades-detalle" name="actividades-detalle"><br><br>
+        </div>
+
+        <!-- Otro empleo -->
+        <div id="empleo" class="opcion" style="display:none;">
+            <label for="empleo-detalle">¿Qué otro empleo buscabas?</label><br>
+            <input type="text" id="empleo-detalle" name="empleo-detalle"><br><br>
+        </div>
+
+        <!-- Ingreso económico -->
+        <div id="economico" class="opcion" style="display:none;">
+            <label for="economico-detalle">¿Por qué el ingreso económico era una razón?</label><br>
+            <input type="text" id="economico-detalle" name="economico-detalle"><br><br>
+        </div>
+
+        <!-- Horarios -->
+        <div id="horarios" class="opcion" style="display:none;">
+            <label for="horarios-detalle">¿Cómo afectaban tus horarios?</label><br>
+            <input type="text" id="horarios-detalle" name="horarios-detalle"><br><br>
+        </div>
+
+        <!-- Falta de desarrollo -->
+        <div id="desarrollo" class="opcion" style="display:none;">
+            <label for="desarrollo-detalle">¿Qué tipo de desarrollo te faltaba?</label><br>
+            <input type="text" id="desarrollo-detalle" name="desarrollo-detalle"><br><br>
+        </div>
+
+        <!-- Negocio propio -->
+        <div id="negocio" class="opcion" style="display:none;">
+            <label for="negocio-detalle">¿Qué tipo de negocio propio tenías en mente?</label><br>
+            <input type="text" id="negocio-detalle" name="negocio-detalle"><br><br>
+        </div>
+
+        <!-- Cargas de trabajo -->
+        <div id="carga" class="opcion" style="display:none;">
+            <label for="carga-detalle">¿Cuáles eran las cargas de trabajo?</label><br>
+            <input type="text" id="carga-detalle" name="carga-detalle"><br><br>
+        </div>
+
+        <!-- Problemas con compañeros -->
+        <div id="compañeros" class="opcion" style="display:none;">
+            <label for="compañeros-detalle">¿Qué problemas tenías con los compañeros?</label><br>
+            <input type="text" id="compañeros-detalle" name="compañeros-detalle"><br><br>
+        </div>
+
+        <!-- Mal trato del jefe inmediato -->
+        <div id="trato" class="opcion" style="display:none;">
+            <label for="trato-detalle">¿Qué tipo de mal trato recibías del jefe inmediato?</label><br>
+            <input type="text" id="trato-detalle" name="trato-detalle"><br><br>
+        </div>
+
+        <!-- Liderazgo inadecuado -->
+        <div id="liderazgo" class="opcion" style="display:none;">
+            <label for="liderazgo-detalle">¿Qué tipo de liderazgo era inadecuado?</label><br>
+            <input type="text" id="liderazgo-detalle" name="liderazgo-detalle"><br><br>
+        </div>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+</body>
+</html>

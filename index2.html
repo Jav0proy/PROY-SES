@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Motivos</title>
+    <style>
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .form-section label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <form id="formulario">
+            <!-- Opción de motivo principal -->
+            <div class="form-section">
+                <label for="motivo">Motivo: ¿Por qué estás buscando estudios?</label><br>
+                <input type="radio" id="motivo1" name="motivo" value="estudios" onclick="mostrarOpciones()"> Estudios<br>
+                <input type="radio" id="motivo2" name="motivo" value="salud" onclick="mostrarOpciones()"> Problemas de salud<br>
+                <input type="radio" id="motivo3" name="motivo" value="personales" onclick="mostrarOpciones()"> Problemas personales<br>
+                <input type="radio" id="motivo4" name="motivo" value="actividades" onclick="mostrarOpciones()"> No me gustaron las actividades<br>
+                <input type="radio" id="motivo5" name="motivo" value="empleo" onclick="mostrarOpciones()"> Otro empleo<br>
+                <input type="radio" id="motivo6" name="motivo" value="economico" onclick="mostrarOpciones()"> Ingreso económico<br>
+                <input type="radio" id="motivo7" name="motivo" value="horarios" onclick="mostrarOpciones()"> Horarios<br>
+                <input type="radio" id="motivo8" name="motivo" value="desarrollo" onclick="mostrarOpciones()"> Falta de desarrollo<br>
+                <input type="radio" id="motivo9" name="motivo" value="negocio" onclick="mostrarOpciones()"> Negocio propio<br>
+                <input type="radio" id="motivo10" name="motivo" value="carga" onclick="mostrarOpciones()"> Cargas de trabajo<br>
+                <input type="radio" id="motivo11" name="motivo" value="compañeros" onclick="mostrarOpciones()"> Problemas con compañeros<br>
+                <input type="radio" id="motivo12" name="motivo" value="trato" onclick="mostrarOpciones()"> Mal trato del jefe inmediato<br>
+                <input type="radio" id="motivo13" name="motivo" value="liderazgo" onclick="mostrarOpciones()"> Liderazgo inadecuado<br>
+                <input type="radio" id="motivo14" name="motivo" value="otros" onclick="mostrarOpciones()"> Otros (especificar)<br><br>
+            </div>
+
+            <!-- Sección de Estudios -->
+            <div id="seccion-estudios" class="form-section" style="display:none;">
+                <label for="tipo-estudio">¿Qué tipo de estudios realizabas?</label><br>
+                <input type="radio" name="tipo-estudio" value="Primaria"> Primaria<br>
+                <input type="radio" name="tipo-estudio" value="Secundaria"> Secundaria<br>
+                <input type="radio" name="tipo-estudio" value="Bachillerato"> Bachillerato<br>
+                <input type="radio" name="tipo-estudio" value="Universidad"> Universidad<br>
+                <input type="radio" name="tipo-estudio" value="Posgrado"> Posgrado<br><br>
+
+                <label>Modalidad:</label><br>
+                <input type="radio" name="modalidad" value="Presencial"> Presencial<br>
+                <input type="radio" name="modalidad" value="En línea"> En línea<br><br>
+
+                <label>¿Qué necesitas para estudiar?</label><br>
+                <input type="checkbox" name="apoyo-estudio" value="Apoyo para colegiatura"> Apoyo para pago de colegiatura<br>
+                <input type="checkbox" name="apoyo-estudio" value="Reducción jornada"> Reducción de jornada para estudiar<br>
+                <input type="checkbox" name="apoyo-estudio" value="Día fijo descanso"> Día fijo de descanso<br><br>
+            </div>
+            
+            <!-- Sección de Problemas Personales -->
+            <div id="seccion-personales" class="form-section" style="display:none;">
+                <label for="causa-personal">¿Qué tipo de problema personal estás enfrentando?</label><br>
+                <input type="radio" name="causa-personal" value="Familiares"> Problemas familiares<br>
+                <input type="radio" name="causa-personal" value="Personales"> Problemas personales<br>
+                <input type="radio" name="causa-personal" value="Emocionales"> Problemas emocionales<br>
+                <input type="radio" name="causa-personal" value="Estrés"> Estrés<br>
+                <input type="radio" name="causa-personal" value="Otro"> Otro (especificar)<br><br>
+
+                <div id="campo-personal-otro" style="display:none;">
+                    <label for="motivo-personal-otro">Especifica otro tipo de problema:</label><br>
+                    <input type="text" id="motivo-personal-otro" name="motivo-personal-otro"><br><br>
+                </div>
+
+                <label for="opciones-personales">Opciones para resolver problemas personales:</label><br>
+                <input type="checkbox" name="opciones-personales" value="Terapia psicológica"> Terapia psicológica<br>
+                <input type="checkbox" name="opciones-personales" value="Tiempo libre"> Tiempo libre para descansar<br>
+                <input type="checkbox" name="opciones-personales" value="Apoyo en familia"> Apoyo en familia<br><br>
+            </div>
+
+            <!-- Opción Otros: Si se selecciona esta opción, aparece un campo de texto -->
+            <div id="campo-otros" class="form-section" style="display:none;">
+                <label for="motivo-otros">Especifica otro motivo:</label><br>
+                <input type="text" id="motivo-otros" name="motivo-otros"><br><br>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function mostrarOpciones() {
+            // Ocultar todas las secciones
+            document.getElementById("seccion-estudios").style.display = 'none';
+            document.getElementById("seccion-personales").style.display = 'none';
+            document.getElementById("campo-otros").style.display = 'none';
+            document.getElementById("campo-personal-otro").style.display = 'none';
+
+            // Obtener el valor del motivo seleccionado
+            var motivoSeleccionado = document.querySelector('input[name="motivo"]:checked');
+
+            // Si el motivo seleccionado es "Estudios", mostrar las opciones de estudios
+            if (motivoSeleccionado && motivoSeleccionado.value === "estudios") {
+                document.getElementById("seccion-estudios").style.display = 'block';
+            }
+            // Si el motivo seleccionado es "Problemas Personales", mostrar las opciones de problemas personales
+            else if (motivoSeleccionado && motivoSeleccionado.value === "personales") {
+                document.getElementById("seccion-personales").style.display = 'block';
+            }
+            // Si el motivo seleccionado es "Otros", mostrar el campo de texto para especificar otro motivo
+            else if (motivoSeleccionado && motivoSeleccionado.value === "otros") {
+                document.getElementById("campo-otros").style.display = 'block';
+            }
+        }
+
+        // Mostrar campo "Otro" en problemas personales
+        const otrosPersonales = document.querySelectorAll('input[name="causa-personal"]');
+        otrosPersonales.forEach(radio => {
+            radio.addEventListener('change', function() {
+                const campoOtro = document.getElementById("campo-personal-otro");
+                if (document.querySelector('input[name="causa-personal"]:checked').value === "Otro") {
+                    campoOtro.style.display = 'block';
+                } else {
+                    campoOtro.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
