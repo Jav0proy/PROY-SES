@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encuesta Dinámica</title>
+  <style>
+    .subgrupo {
+      margin-left: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Encuesta de Satisfacción</h2>
+
+  <!-- El contenedor de las preguntas se llenará dinámicamente -->
+  <div id="encuesta"></div>
+
+  <script>
+    // Función para cargar las preguntas dinámicamente
+    function cargarEncuesta(data) {
+      const encuestaDiv = document.getElementById('encuesta');
+
+      data.preguntas.forEach(pregunta => {
+        const preguntaDiv = document.createElement('div');
+        preguntaDiv.classList.add('pregunta');
+        preguntaDiv.setAttribute('data-id', pregunta.id);
+
+        const preguntaTexto = document.createElement('h3');
+        preguntaTexto.textContent = pregunta.texto;
+        preguntaDiv.appendChild(preguntaTexto);
+
+        pregunta.opciones.forEach(opcion => {
+          const opcionDiv = document.createElement('div');
+          
+          // Crear radio button
+          const radioInput = document.createElement('input');
+          radioInput.type = 'radio';
+          radioInput.name = `pregunta_${pregunta.id}`; // Nombre único para cada grupo de opciones
+          radioInput.value = opcion.id;
+          radioInput.id = `${pregunta.id}_${opcion.id}`;
+          radioInput.setAttribute('data-pregunta-id', pregunta.id); // Relacionar con pregunta
+          radioInput.setAttribute('data-opcion-id', opcion.id);    // Relacionar con opción
+
+          // Crear label para la opción
+          const radioLabel = document.createElement('label');
+          radioLabel.setAttribute('for', `${pregunta.id}_${opcion.id}`);
+          radioLabel.textContent = opcion.valor;
+
+          opcionDiv.appendChild(radioInput);
+          opcionDiv.appendChild(radioLabel);
+
+          preguntaDiv.appendChild(opcionDiv);
+        });
+
+        encuestaDiv.appendChild(preguntaDiv);
+      });
+    }
+
+    // Función para mostrar las opciones dependiendo de la categoría seleccionada
+    function mostrarSubgrupo(radio, preguntaId) {
+      // Ocultamos todas las opciones de las demás preguntas
+      const preguntas = document.querySelectorAll('.pregunta');
+      preguntas.forEach(p => {
+        const subgrupo = p.querySelectorAll('input[type="radio"]');
+        subgrupo.forEach(r => {
+          r.disabled = true;
+          r.checked = false;
+        });
+      });
+
+      // Activamos solo las opciones de la pregunta seleccionada
+      const opciones = document.querySelectorAll(`input[data-pregunta-id="${preguntaId}"]`);
+      opciones.forEach(opcion => {
+        opcion.disabled = false;
+      });
+    }
+
+    // Asignamos el evento de clic para cada radio button
+    document.addEventListener('click', function(e) {
+      if (e.target.type === 'radio') {
+        const preguntaId = e.target.getAttribute('data-pregunta-id');
+        mostrarSubgrupo(e.target, preguntaId);
+      }
+    });
+
+    // Realizamos la solicitud XMLHttpRequest para obtener los datos desde la base de datos
+    function obtenerDatosDeEncuesta() {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', 'ruta/a/tu/api/o/archivo.json', true); // Asegúrate de cambiar esta URL a la correcta
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          // Parseamos la respuesta JSON
+          const data = JSON.parse(xhr.responseText);
+          cargarEncuesta(data);  // Llamamos a la función para cargar las preguntas
+        } else {
+          console.error('Error al obtener los datos de la encuesta');
+        }
+      };
+
+      xhr.onerror = function() {
+        console.error('Error en la solicitud XMLHttpRequest');
+      };
+
+      xhr.send();
+    }
+
+    // Llamamos a la función que realiza la solicitud para cargar los datos
+    obtenerDatosDeEncuesta();
+  </script>
+
+</body>
+</html>
