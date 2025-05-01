@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Encuesta de Satisfacción</title>
+  <style>
+    .subgrupo {
+      margin-left: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Encuesta de Satisfacción</h2>
+
+  <form id="encuesta">
+
+    <h3>1. ¿Cuál es tu nivel de satisfacción con la empresa?</h3>
+
+    <!-- Opción Bueno -->
+    <div class="grupo" data-grupo="satisfaccion">
+      <p><strong>Bueno</strong></p>
+      <input type="radio" name="nivel" value="bueno" onclick="mostrarSubgrupo(this, 'bueno')"> Seleccionar<br>
+      <div class="subgrupo" id="subgrupo-bueno">
+        <input type="radio" name="bueno" value="todo_bien"> Estoy satisfecho<br>
+      </div>
+    </div>
+
+    <!-- Opción Regular -->
+    <div class="grupo" data-grupo="satisfaccion">
+      <p><strong>Regular</strong></p>
+      <input type="radio" name="nivel" value="regular" onclick="mostrarSubgrupo(this, 'regular')"> Seleccionar<br>
+      <div class="subgrupo" id="subgrupo-regular">
+        <input type="radio" name="regular" value="mejorar"> Podría mejorar<br>
+        <input type="radio" name="regular" value="lento"> Servicio lento<br>
+      </div>
+    </div>
+
+    <!-- Opción Malo -->
+    <div class="grupo" data-grupo="satisfaccion">
+      <p><strong>Malo</strong></p>
+      <input type="radio" name="nivel" value="malo" onclick="mostrarSubgrupo(this, 'malo')"> Seleccionar<br>
+      <div class="subgrupo" id="subgrupo-malo">
+        <input type="radio" name="malo" value="atencion"> Muy mala atención<br>
+        <input type="radio" name="malo" value="sin_respuesta"> No resolvieron mi problema<br>
+      </div>
+    </div>
+
+  </form>
+
+  <script>
+    function mostrarSubgrupo(radio, tipo) {
+      // Mostrar solo el subgrupo del seleccionado
+      ['bueno', 'regular', 'malo'].forEach(t => {
+        const sub = document.getElementById(`subgrupo-${t}`);
+        const inputs = sub.querySelectorAll('input[type="radio"]');
+
+        if (t === tipo) {
+          sub.style.display = 'block';
+          inputs.forEach(i => i.disabled = false); // Activar radios
+        } else {
+          sub.style.display = 'none';
+          inputs.forEach(i => {
+            i.checked = false; // Desmarcar
+            i.disabled = true; // Desactivar
+          });
+        }
+      });
+
+      // Asegura que todos los radios de nivel estén habilitados (puede cambiar de opinión)
+      const radiosNivel = document.getElementsByName('nivel');
+      radiosNivel.forEach(r => {
+        r.disabled = false;
+      });
+    }
+  </script>
+
+</body>
+</html>
+
